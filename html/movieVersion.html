@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="utf-8">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <link rel="stylesheet" href="../css/master.css">
+  <title></title>
+</head>
+
+<body>
+  <h1>Authors</h1>
+  <ul id="authors"></ul>
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+  function createNode(element)
+  {
+    return document.createElement(element);
+  }
+  function append(parent, el)
+  {
+    return parent.appendChild(el);
+  }
+  const ul = document.getElementById('authors');
+  const url = 'https://www.omdbapi.com/?s=Harry+Potter&apikey=361f9e3a';
+  fetch(url)
+    .then((resp) => resp.json())
+    .then(function(data)
+    {
+      let movies = data.Search; //movies is an array
+      return movies.map(function(movie) { //maps every element of movies to some other element in the return array
+        let li = createNode('li'),
+          img = createNode('img'),
+          span = createNode('span');
+        img.src = movie.Poster;
+        span.innerHTML = `${movie.Title}, ${movie.Year}`; //template literal
+        append(li, img);
+        append(li, span);
+        append(ul, li);
+      })
+    })
+    .catch(function(error) {
+      console.log(error);
+    });
+</script>
